@@ -6,19 +6,26 @@ beforeAll(() => server.listen());
 afterAll(() => server.close());
 afterEach(() => server.resetHandlers());
 describe("SearchBox", () => {
-  it("should render search input", () => {
+ 
+  it("More Filters must be hidden by default", () => {
     render(<SearchBox />);
-    const search = screen.getByRole("textbox", { name: /Enter location/i });
-    expect(search).toBeInTheDocument();
+    const Area = screen.queryByText("Area");
+    const Rooms = screen.queryByText("Rooms");
+    const Baths = screen.queryByText("Baths");
+    expect(Rooms).not.toBeInTheDocument();
+    expect(Area).not.toBeInTheDocument();
+    expect(Baths).not.toBeInTheDocument();
   });
-  it("should render autocomplete values for abu dabi", async () => {
+  it("Should render addtional Filters onClick More Filters Button", async () => {
     user.setup();
     render(<SearchBox />);
-    const search = screen.getByRole("textbox", { name: /Enter location/i });
-    await user.type(search, "Abu Dhabi");
-    expect(search).toHaveValue("Abu Dhabi");
-    const autoComplete = await screen.findAllByRole("listitem");
-    //  asseerting resluts
-    expect(autoComplete.map((res) => res.textContent)).toContain("Abu Dhabi");
+    const MoreFilterbtn = screen.getByRole("button", { name: "More Filters" });
+    await user.click(MoreFilterbtn);
+    const Area = await screen.findByText("Area");
+    const Rooms = await screen.findByText("Rooms");
+    const Baths = await screen.findByText("Baths");
+    expect(Rooms).toBeInTheDocument();
+    expect(Area).toBeInTheDocument();
+    expect(Baths).toBeInTheDocument();
   });
 });

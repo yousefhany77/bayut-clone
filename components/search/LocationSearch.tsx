@@ -29,7 +29,9 @@ function SearchFilter({ setState: setFilters }: Props) {
 
     const autocomplete = async () => {
       const hits = await bayut.search(searchTerm, controller.signal);
-      setAutocomplete(hits);
+      if (hits?.length && Array.isArray(hits)) {
+        setAutocomplete(hits);
+      }
     };
     if (searchTerm.length > 2) autocomplete();
     return () => controller.abort();
@@ -92,8 +94,7 @@ function SearchFilter({ setState: setFilters }: Props) {
             >
               {autocompleteRes?.map((res) => (
                 <li
-                  date-externalID={res.externalID}
-                  onClick={(event) => {
+                  onClick={() => {
                     setLocation(res.name, res.externalID);
                     setDrop(false);
                   }}

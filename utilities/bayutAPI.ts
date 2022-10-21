@@ -1,8 +1,4 @@
-import axios, {
-  AxiosError,
-  AxiosRequestConfig,
-  GenericAbortSignal,
-} from "axios";
+import axios, { AxiosError, GenericAbortSignal } from "axios";
 import { Hit } from "../types";
 
 export const bayutFetch = axios.create({
@@ -29,14 +25,8 @@ export const search = async (
     const error: AxiosError = err as AxiosError;
     if (error.name == "CanceledError") return;
     else console.log;
-    if (error.response) {
-      return error.response.data;
-      // The client was given an error response (5xx, 4xx)
-    } else if (error.request) {
-      // The client never received a response, and the request was never left
-      return error.request.responseText;
-    } else {
-      return "can not connect find" as string;
+    if (error) {
+      return error.message;
     }
   }
 };

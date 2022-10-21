@@ -12,12 +12,12 @@ interface Props {
   setState: (filters: (filter: Filters) => Filters) => unknown;
 }
 
-const data = {
+export const residential_data = {
   Apartment: 4,
   Townhouses: 16,
   Villas: 3,
   Penthouses: 18,
-  Hotel_Apartments: 21,
+  "Hotel Apartments": 21,
   "Villa Compound": 19,
   "Residential Plot": 14,
   "Residential Floor": 12,
@@ -40,17 +40,16 @@ function DropDown({ setState }: Props) {
   const [drop, setDrop] = useState<boolean>(false);
   const [RESIDENTIAL_VALUES, setRESIDENTIAL_VALUES] = useState<
     [string, number][]
-  >(Object.entries(data));
+  >(Object.entries(residential_data));
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleFilter = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     const search = event.target.value.toString().toLowerCase();
     let values = RESIDENTIAL_VALUES;
     values = values.filter((value) => value[0].toLowerCase().includes(search));
-    event.target.value === ""
-      ? setRESIDENTIAL_VALUES(Object.entries(data))
+    event.target.value.trim().length === 0
+      ? setRESIDENTIAL_VALUES(Object.entries(residential_data))
       : setRESIDENTIAL_VALUES(() => values);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const setResidential = useCallback((Target: number) => {
     setState((filters) => ({
@@ -58,7 +57,6 @@ function DropDown({ setState }: Props) {
       residential: Target,
     }));
     setDrop(false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const ulRef = useRef<HTMLUListElement>(null);
   useEffect(() => {
@@ -79,9 +77,15 @@ function DropDown({ setState }: Props) {
           onClick={() => inputRef.current?.focus()}
           className="flex justify-between items-center  px-3 h-16  "
         >
+          <label className="sr-only" htmlFor="Residential">
+            Residential type
+          </label>
           <input
             type="text"
+            name="Residential type"
+            id="Residential"
             placeholder="Residential"
+            value={inputRef.current?.value || ""}
             className={`${
               drop && "cursor-auto"
             } cursor-pointer font-medium text-lg pl-1.5 bg-transparent outline-none  md:w-36  transition-all duration-200  ease-[cubic-bezier(.47,-0.98,.48,1.67)] focus:placeholder:text-gray-200 placeholder:text-black focus:w-full `}
@@ -107,18 +111,17 @@ function DropDown({ setState }: Props) {
           className=" w-full bg-white rounded-lg p-2 mt-2 max-h-40 overflow-scroll scroll-smooth snap-y shadow-lg absolute z-10"
         >
           {RESIDENTIAL_VALUES.length > 0 ? (
-            RESIDENTIAL_VALUES.map((value: [string, number]) => (
+            RESIDENTIAL_VALUES.map((values: [string, number]) => (
               <li
                 className="p-2 cursor-pointer text-center snap-end hover:bg-slate-300 rounded-lg transition-colors duration-100 ease-out"
-                key={value[1]}
+                key={values[1]}
                 onClick={() => {
-                  setResidential(value[1]);
+                  setResidential(values[1]);
                   setDrop(false);
-                  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                  inputRef.current!.value = value[0];
+                  if (inputRef.current) inputRef.current.value = values[0];
                 }}
               >
-                {value[0].replace("_", " ")}
+                {values[0].replace("_", " ")}
               </li>
             ))
           ) : (

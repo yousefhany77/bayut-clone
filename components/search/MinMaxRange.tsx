@@ -90,7 +90,7 @@ const MinMaxRange = ({
         className="h-12  flex items-center w-full  "
         onClick={() => setIsOpen(!isOpen)}
       >
-        {max !== 0 && !isOpen ? (
+        {min > 0 && !isOpen ? (
           <div
             className={`flex 2xl:flex-col  justify-around text-lg lg:text-base w-full text-center li text-black overflow-hidden  
             `}
@@ -107,11 +107,8 @@ const MinMaxRange = ({
             </span>{" "}
             <span className="truncate" data-testid={"max"}>
               <span className="font-medium">Max:</span>{" "}
-              {isMouny
-                ? priceFormater(max)
-                : max && max > 0
-                ? max + " " + unit
-                : "any"}
+              {isMouny ? priceFormater(max) : max + " " + unit}
+              {max === 0 && "any"}
             </span>{" "}
           </div>
         ) : (

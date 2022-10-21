@@ -77,7 +77,7 @@ function SearchBox() {
         <div
           className={`flex flex-wrap lg:flex-nowrap justify-between gap-3 lg:gap-1.5 col-span-full  `}
         >
-          <div className="cursor-pointer group flex-1 h-16 flex px-2 items-center justify-center gap-3  2xl:self-start rounded-lg bg-indigo-500 min-w-fit self-end justify-self-end text-white">
+          <button className="cursor-pointer group flex-1 h-16 flex px-2 items-center justify-center gap-3  2xl:self-start rounded-lg bg-indigo-500 min-w-fit self-end justify-self-end text-white">
             <FaSearchengin
               size={23}
               className={
@@ -87,8 +87,8 @@ function SearchBox() {
             <p className=" group-hover:text-yellow-400 transition-all duration-200 ease-in-out">
               Find property
             </p>
-          </div>
-          <div
+          </button>
+          <button
             onClick={() => ToggleMoreFilters((prev) => !prev)}
             className="group cursor-pointer flex-1 sm:flex-none hidden   h-16 2xl:flex px-2 items-center justify-center gap-3  2xl:self-start rounded-lg bg-indigo-500 min-w-fit self-end justify-self-end text-white"
           >
@@ -101,7 +101,7 @@ function SearchBox() {
             <p className=" group-hover:text-yellow-400 transition-all duration-200 ease-in-out">
               More Filters
             </p>
-          </div>
+          </button>
         </div>
       </div>
     </div>

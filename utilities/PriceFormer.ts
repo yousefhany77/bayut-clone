@@ -1,6 +1,6 @@
 export const priceFormater = (price: number): string => {
   if (!price) return "";
-  if (price <= 1000) return price + "AED";
+  if (price <= 1000) return `AED ${price}`;
   if (price >= 1000_000) {
     const value = new Intl.NumberFormat("en-IN", {
       style: "currency",
@@ -13,6 +13,6 @@ export const priceFormater = (price: number): string => {
     style: "currency",
     currency: "AED",
     maximumFractionDigits: 0,
-  }).format(price / 1000);
-  return `${value}K`;
+  }).format(price / 1000)
+  return value +"K";
 };
