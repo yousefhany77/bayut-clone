@@ -22,9 +22,7 @@ const Home: NextPage = () => {
               fill
               className="object-cover scale-x-[-1] opacity-95 "
             />
-            <h1 className="absolute bottom-24 right-1/2 translate-x-1/2 tr text-white text-2xl p-5 underline underline-offset-4 decoration-2 decoration-yellow-400 lg:text-4xl">
-              Find Your Property
-            </h1>
+            
           </div>
           <SearchBox />
         </section>

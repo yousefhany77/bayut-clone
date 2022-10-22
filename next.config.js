@@ -1,6 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
- 
+  async rewrites() {
+    return [
+      {
+        source: "/:properties",
+        destination: "/:properties/properties_index",
+      },
+    ];
+  },
   reactStrictMode: true,
   swcMinify: true,
   images: {

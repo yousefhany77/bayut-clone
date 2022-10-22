@@ -1,6 +1,6 @@
 import { memo, useState, useEffect, useRef } from "react";
 import { CiCircleRemove, CiLocationArrow1 } from "react-icons/ci";
-
+import { TbRoute } from "react-icons/tb";
 import { Filters, Hit } from "../../types";
 import * as bayut from "../../utilities/bayutAPI";
 interface Props {
@@ -21,7 +21,8 @@ function SearchFilter({ setState: setFilters }: Props) {
     setAutocomplete([]);
     setFilters((filters) => ({
       ...filters,
-      location: locationId,
+      location: locationName,
+      externalID: locationId,
     }));
   };
   useEffect(() => {
@@ -61,7 +62,7 @@ function SearchFilter({ setState: setFilters }: Props) {
               setDrop(true);
               setSelectedLocation("");
             }}
-            className="cursor-pointer font-medium text-lg pl-1.5 bg-transparent outline-none w-full  "
+            className="cursor-pointer font-medium text-lg pl-1.5 bg-transparent outline-none w-full truncate sm:max-w-[20ch] lg:max-w-none text-indigo-600"
           >
             {selectedLocation}
           </p>
@@ -99,8 +100,9 @@ function SearchFilter({ setState: setFilters }: Props) {
                     setDrop(false);
                   }}
                   key={res.id}
-                  className="p-2 cursor-pointer text-center snap-end hover:bg-slate-300 rounded-lg transition-colors duration-100 ease-out"
+                  className="p-2 cursor-pointer text-center snap-end hover:bg-slate-300 hover:text-indigo-400 rounded-lg transition-colors duration-100 ease-out flex justify-start items-center gap-3"
                 >
+                  <TbRoute className="text-indigo-400" />
                   {res.name}
                 </li>
               ))}

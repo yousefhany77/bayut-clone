@@ -90,7 +90,7 @@ const MinMaxRange = ({
         className="h-12  flex items-center w-full  "
         onClick={() => setIsOpen(!isOpen)}
       >
-        {min > 0 && !isOpen ? (
+        {(min > 0 || max > 0) && !isOpen ? (
           <div
             className={`flex 2xl:flex-col  justify-around text-lg lg:text-base w-full text-center li text-black overflow-hidden  
             `}
@@ -100,16 +100,32 @@ const MinMaxRange = ({
                 Max must be more then min
               </p>
             )}
-            <span className="truncate capitalize" data-testid={"min"}>
-              <span className="font-medium ">Min:</span>{" "}
-              {isMouny ? priceFormater(min) : min + " " + unit}
-              {min === 0 && "minimum"}
-            </span>{" "}
-            <span className="truncate" data-testid={"max"}>
-              <span className="font-medium">Max:</span>{" "}
-              {isMouny ? priceFormater(max) : max + " " + unit}
-              {max === 0 && "any"}
-            </span>{" "}
+            {isMouny ? (
+              <>
+                <span className="truncate capitalize" data-testid={"min"}>
+                  <span className="font-medium ">Min:</span>{" "}
+                  {min !== 0 ? priceFormater(min) : "Minimum"}
+                </span>
+                <span className="truncate" data-testid={"max"}>
+                  <span className="font-medium">Max:</span>{" "}
+                  {max ? priceFormater(max) : "any"}
+                </span>
+              </>
+            ) : (
+              <div className="grid grid-cols-[auto_1fr]">
+                <p className="font-medium ">{title}:</p>
+                <div className="flex justify-around ">
+                  <span className="truncate capitalize" data-testid={"min"}>
+                    <span className="font-medium ">Min:</span>{" "}
+                    {min === 0 ? "Minimum" : min + " " + unit}
+                  </span>
+                  <span className="truncate" data-testid={"max"}>
+                    <span className="font-medium">Max:</span>{" "}
+                    {!max || max === 0 ? "any" : max + " " + unit}
+                  </span>{" "}
+                </div>
+              </div>
+            )}
           </div>
         ) : (
           <p

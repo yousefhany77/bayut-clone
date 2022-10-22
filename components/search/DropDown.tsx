@@ -50,7 +50,7 @@ function DropDown({ setState }: Props) {
     event.target.value.trim().length === 0
       ? setRESIDENTIAL_VALUES(Object.entries(residential_data))
       : setRESIDENTIAL_VALUES(() => values);
-  }, [RESIDENTIAL_VALUES]);
+  }, []);
   const setResidential = useCallback((Target: number) => {
     setState((filters) => ({
       ...filters,
@@ -88,7 +88,7 @@ function DropDown({ setState }: Props) {
             value={inputRef.current?.value || ""}
             className={`${
               drop && "cursor-auto"
-            } cursor-pointer font-medium text-lg pl-1.5 bg-transparent outline-none  md:w-36  transition-all duration-200  ease-[cubic-bezier(.47,-0.98,.48,1.67)] focus:placeholder:text-gray-200 placeholder:text-black focus:w-full `}
+            } cursor-pointer font-medium text-lg pl-1.5 bg-transparent outline-none  md:min-w-[9rem] max-w-[20ch]  transition-all duration-200  ease-[cubic-bezier(.47,-0.98,.48,1.67)] focus:placeholder:text-gray-200 placeholder:text-black focus:w-full focus:max-w-none  `}
             onFocus={() => setDrop(true)}
             onChange={(event) => handleFilter(event)}
             ref={inputRef}
@@ -96,8 +96,8 @@ function DropDown({ setState }: Props) {
           <MdOutlineArrowDropDownCircle
             size={23}
             className={`text-gray-600  cursor-pointer ${
-              !drop && "rotate-90"
-            } transition-all duration-300  ease-in`}
+              !drop && "rotate-90 "
+            } transition-all duration-300  ease-in `}
             onClick={() => {
               setDrop(!drop);
               drop ? inputRef.current?.blur() : inputRef.current?.focus();
@@ -113,7 +113,7 @@ function DropDown({ setState }: Props) {
           {RESIDENTIAL_VALUES.length > 0 ? (
             RESIDENTIAL_VALUES.map((values: [string, number]) => (
               <li
-                className="p-2 cursor-pointer text-center snap-end hover:bg-slate-300 rounded-lg transition-colors duration-100 ease-out"
+                className="p-2 cursor-pointer text-center snap-end hover:bg-slate-300 rounded-lg transition-colors duration-100 ease-out hover:text-indigo-400"
                 key={values[1]}
                 onClick={() => {
                   setResidential(values[1]);

@@ -8,7 +8,7 @@ interface Props {
 
 function TogglePropertyType({ setFilters, filters }: Props) {
   return (
-    <div className="flex space-x-5">
+    <div className="flex  gap-3 flex-wrap items-center justify-center">
       <div className="flex  bg-slate-200 mt-2 w-fit  rounded-full overflow-hidden cursor-pointer ">
         <span
           className={`${
@@ -31,6 +31,7 @@ function TogglePropertyType({ setFilters, filters }: Props) {
             setFilters((filters) => ({
               ...filters,
               propertyType: "rent",
+              rentFrequency: "daily",
             }));
           }}
         >
@@ -39,7 +40,7 @@ function TogglePropertyType({ setFilters, filters }: Props) {
       </div>
       {/* Rent Frequency */}
       {filters.propertyType === "rent" && (
-        <div className="flex  bg-slate-200 mt-2 w-fit  rounded-full overflow-hidden cursor-pointer ">
+        <div className="grid grid-cols-2  sm:flex  bg-slate-200 mt-2   rounded-2xl sm:rounded-full overflow-hidden cursor-pointer ">
           <span
             className={`${
               filters.rentFrequency === "daily" && "bg-indigo-500 text-white"

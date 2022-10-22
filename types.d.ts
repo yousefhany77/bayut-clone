@@ -65,6 +65,7 @@ export interface HitHierarchy {
 }
 
 export interface Filters {
+  externalID?: string;
   location?: string;
   propertyType?: "rent" | "sale";
   residential?: number;
@@ -87,3 +88,4 @@ export interface Filters {
   furnished?: boolean;
   rentFrequency?: "monthly" | "yearly" | "weekly" | "daily";
 }
+
