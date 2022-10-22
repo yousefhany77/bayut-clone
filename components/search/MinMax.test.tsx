@@ -79,7 +79,6 @@ describe("Min Max Area with meter square units", () => {
     expect(
       await screen.findByText("any", { exact: false })
     ).toBeInTheDocument();
-    console.log(header.textContent);
   });
   it("Should Have max Value", async () => {
     user.setup();
