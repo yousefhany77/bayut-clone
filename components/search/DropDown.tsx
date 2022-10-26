@@ -54,7 +54,7 @@ function DropDown({ setState }: Props) {
   const setResidential = useCallback((Target: number) => {
     setState((filters) => ({
       ...filters,
-      residential: Target,
+      categoryExternalID: Target,
     }));
     setDrop(false);
   }, [setState]);

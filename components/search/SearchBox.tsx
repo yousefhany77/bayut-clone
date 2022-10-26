@@ -12,8 +12,7 @@ import { getQueryPrams } from "../../utilities/getQueryPrams";
 
 function SearchBox() {
   const [filters, setFilters] = useState<Filters>({
-    propertyType: "sale",
-    rentFrequency: undefined,
+    purpose: "for-sale",
   });
   const [moreFilters, ToggleMoreFilters] = useState<boolean>(false);
   const linkObject: UrlObject = useMemo(() => {
@@ -72,7 +71,7 @@ function SearchBox() {
           />
         )}
         {moreFilters && (
-          <div className="flex gap-3 lg:gap-1.5 md:col-span-full xl:col-span-2">
+          <>
             <MinMaxComponent
               title="Rooms"
               filterType={"rooms"}
@@ -84,7 +83,7 @@ function SearchBox() {
               setFilters={setFilters}
               maxLimit={10}
             />
-          </div>
+          </>
         )}
 
         {/* search */}

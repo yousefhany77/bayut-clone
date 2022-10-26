@@ -12,12 +12,12 @@ function TogglePropertyType({ setFilters, filters }: Props) {
       <div className="flex  bg-slate-200 mt-2 w-fit  rounded-full overflow-hidden cursor-pointer ">
         <span
           className={`${
-            filters.propertyType === "sale" && "bg-indigo-500 text-white"
+            filters.purpose === "for-sale" && "bg-indigo-500 text-white"
           } px-4 py-2  font-medium transition-all duration-300  ease-in`}
           onClick={() => {
             setFilters((filters) => ({
               ...filters,
-              propertyType: "sale",
+              purpose: "for-sale",
             }));
           }}
         >
@@ -25,12 +25,12 @@ function TogglePropertyType({ setFilters, filters }: Props) {
         </span>
         <span
           className={`${
-            filters.propertyType === "rent" && "bg-indigo-500 text-white"
+            filters.purpose === "for-rent" && "bg-indigo-500 text-white"
           } px-4 py-2  font-medium transition-all duration-300  ease-in`}
           onClick={() => {
             setFilters((filters) => ({
               ...filters,
-              propertyType: "rent",
+              purpose: "for-rent",
               rentFrequency: "daily",
             }));
           }}
@@ -39,7 +39,7 @@ function TogglePropertyType({ setFilters, filters }: Props) {
         </span>
       </div>
       {/* Rent Frequency */}
-      {filters.propertyType === "rent" && (
+      {filters.purpose === "for-rent" && (
         <div className="grid grid-cols-2  sm:flex  bg-slate-200 mt-2   rounded-2xl sm:rounded-full overflow-hidden cursor-pointer ">
           <span
             className={`${

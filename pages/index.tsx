@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import Image from "next/future/image";
+import Image from "next/image";
 import Hero from "../public/Hero.jpg";
 import SearchBox from "../components/search/SearchBox";
 
@@ -19,7 +19,6 @@ const Home: NextPage = () => {
               placeholder="blur"
               quality={80}
               priority
-              fill
               className="object-cover scale-x-[-1] opacity-95 "
             />
             
@@ -27,7 +26,7 @@ const Home: NextPage = () => {
           <SearchBox />
         </section>
       </div>
-      <section className="bg-red-400">
+      <section className="">
         <h1 className="text-center text-indigo-600 text-lg p-5 underline underline-offset-4 decoration-2 decoration-yellow-400 lg:text-2xl">
           Find Your Property
         </h1>

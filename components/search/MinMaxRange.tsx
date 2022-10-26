@@ -56,8 +56,8 @@ const MinMaxRange = ({
         ...filters,
 
         [filterType]: {
-          min: min,
-          max: max,
+          Min: min,
+          Max: max,
         },
       }));
     }

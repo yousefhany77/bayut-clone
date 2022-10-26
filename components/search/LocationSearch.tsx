@@ -22,7 +22,7 @@ function SearchFilter({ setState: setFilters }: Props) {
     setFilters((filters) => ({
       ...filters,
       location: locationName,
-      externalID: locationId,
+      locationExternalIDs: locationId.toString(),
     }));
   };
   useEffect(() => {
