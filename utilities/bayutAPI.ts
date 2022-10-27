@@ -1,5 +1,5 @@
 import axios, { AxiosError, GenericAbortSignal } from "axios";
-import { Filters, Hit, PropertiesListing } from "../types";
+import { Filters, Hit, PropertiesListingResponse } from "../types";
 
 export const bayutFetch = axios.create({
   baseURL: "https://bayut.p.rapidapi.com",
@@ -33,10 +33,11 @@ export const search = async (
 
 export const fetchProperties = async (filtersPrams: Filters) => {
   try {
-    const hits = await bayutFetch.get(`/properties/list`, {
-      params: filtersPrams,
+    const { data } = await bayutFetch.get(`/properties/list`, {
+      params: { ...filtersPrams, hitsPerPage: 5 } as Filters,
     });
-    return hits.data as PropertiesListing[];
+    const response: PropertiesListingResponse = data;
+    return response;
   } catch (error) {
     console.log(error);
   }

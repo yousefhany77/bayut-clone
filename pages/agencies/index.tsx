@@ -1,29 +1,29 @@
 import axios from "axios";
-import React from "react";
-import { useQuery, useQueryClient } from "react-query";
+import React, { Fragment } from "react";
+import { useInfiniteQuery } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 function Agencies() {
-  const { data, isLoading, isError, isFetched } = useQuery(
+  const {
+    data,
+    isLoading,
+    isError,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery(
     "todos",
-    async () => {
+    async ({ pageParam = 1 }) => {
       const { data: todos } = await axios.get(
-        "https://jsonplaceholder.typicode.com/todos"
+        `https://jsonplaceholder.typicode.com/todos?_limit=50&page=${pageParam}`
       );
       return todos;
     },
     {
       refetchOnMount: false,
       refetchOnWindowFocus: false,
-    }
-  );
-  const queryClient = useQueryClient();
-  const { data: user } = useQuery(
-    ["user", "1"],
-    async () => {
-      const { data: user } = await axios.get(
-        "https://jsonplaceholder.typicode.com/users/1"
-      );
-      return user;
+      getNextPageParam: (_lastpage, pages) => {
+        if (pages.length < 10) return pages.length + 1;
+        else return undefined;
+      },
     }
   );
 
@@ -31,11 +31,20 @@ function Agencies() {
   if (isError) return <p>Error</p>;
   return (
     <div>
-      <pre>{JSON.stringify(user, null, 2)}</pre>
-      {data?.map((todo: any) => (
-        <p key={todo.id}>{todo.title}</p>
+      {data?.pages.map((group, i) => (
+        <Fragment key={i}>
+          <ul>
+            {group.map((todo: any) => (
+              <li key={todo.id}>{todo.title}</li>
+            ))}
+          </ul>
+        </Fragment>
       ))}
       <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
+      { isFetchingNextPage && <p className="text-lg text-red-300">loading...</p>}
+      <button className="bg-blue-500" onClick={() => fetchNextPage()}>
+        Fetch
+      </button>
     </div>
   );
 }

@@ -90,6 +90,23 @@ export interface Filters {
   page?: number;
   hitsPerPage?: number;
 }
+export interface PropertiesListingResponse {
+  hits: PropertiesListing[];
+  nbHits: number;
+  page: number;
+  nbPages: number;
+  hitsPerPage: number;
+  exhaustiveNbHits: boolean;
+  exhaustive: Exhaustive;
+  query: string;
+  params: string;
+  processingTimeMS: number;
+  processingTimingsMS: ProcessingTimingsMS;
+}
+
+export interface Exhaustive {
+  nbHits: boolean;
+}
 
 export interface PropertiesListing {
   id: number;
@@ -107,11 +124,14 @@ export interface PropertiesListing {
   rentFrequency: string;
   referenceNumber: string;
   permitNumber: string;
+  projectNumber: null;
   title: string;
   title_l1: string;
+  title_l2: string;
   externalID: string;
   slug: string;
   slug_l1: string;
+  slug_l2: string;
   location: Category[];
   category: Category[];
   createdAt: number;
@@ -122,13 +142,14 @@ export interface PropertiesListing {
   area: number;
   score: number;
   score_l1: number;
+  score_l2: number;
   coverPhoto: CoverPhoto;
   photoCount: number;
   videoCount: number;
   panoramaCount: number;
   phoneNumber: PhoneNumber;
   contactName: string;
-  agency: PropertiesListingAgency;
+  agency: HitAgency;
   hash: string;
   keywords: string[];
   isVerified: boolean;
@@ -137,16 +158,19 @@ export interface PropertiesListing {
   completionStatus: string;
   randBoostScore: number;
   randBoostScore_l1: number;
-  floorPlanID: number;
+  randBoostScore_l2: number;
+  floorPlanID: null;
   furnishingStatus: string;
   extraFields: ExtraFields;
   type: string;
   cityLevelScore: number;
   indyScore: number;
   indyScore_l1: number;
+  indyScore_l2: number;
   hasMatchingFloorPlans: boolean;
   photoIDs: number[];
   hidePrice: boolean;
+  locationPurposeTier: number;
   objectID: string;
   _highlightResult: HighlightResult;
 }
@@ -178,11 +202,12 @@ export enum MatchLevel {
   None = "none",
 }
 
-export interface PropertiesListingAgency {
+export interface HitAgency {
   id: number;
   objectID: number;
   name: string;
   name_l1: string;
+  name_l2: string;
   externalID: string;
   product: string;
   productScore: number;
@@ -190,9 +215,14 @@ export interface PropertiesListingAgency {
   logo: Logo;
   slug: string;
   slug_l1: string;
+  slug_l2: string;
+  tr: number;
   tier: number;
   roles: any[];
+  active: boolean;
   createdAt: Date;
+  commercialNumber: null;
+  shortNumber: null;
 }
 
 export interface License {
@@ -211,25 +241,24 @@ export interface Category {
   externalID: string;
   name: string;
   name_l1: string;
+  name_l2: string;
   slug: string;
   slug_l1: string;
+  slug_l2: string;
   nameSingular?: string;
   nameSingular_l1?: string;
+  nameSingular_l2?: string;
+  type?: string;
 }
 
 export interface CoverPhoto {
   id: number;
   externalID: string;
   title: null;
-  url: string;
   orderIndex: number;
   nimaScore: number;
+  url: string;
   main: boolean;
-}
-
-export interface ExtraFields {
-  dldBuildingNK: string;
-  dldPropertySK: string;
 }
 
 export interface PhoneNumber {
@@ -246,4 +275,24 @@ export interface Verification {
   eligible: boolean;
   status: string;
   verifiedAt: number;
+}
+
+export interface ProcessingTimingsMS {
+  fetch: Fetch;
+  getIdx: GetIdx;
+  total: number;
+}
+
+export interface Fetch {
+  scanning: number;
+  total: number;
+}
+
+export interface GetIdx {
+  load: Load;
+  total: number;
+}
+
+export interface Load {
+  total: number;
 }
