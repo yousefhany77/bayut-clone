@@ -13,11 +13,13 @@ import { getQueryPrams } from "../../utilities/getQueryPrams";
 function SearchBox() {
   const [filters, setFilters] = useState<Filters>({
     purpose: "for-sale",
+    locationExternalIDs: "5002",
+    sort: "city-level-score",
   });
   const [moreFilters, ToggleMoreFilters] = useState<boolean>(false);
   const linkObject: UrlObject = useMemo(() => {
     return {
-      pathname: `/${filters.location ? filters.location : "UAE"}`,
+      pathname: `/${filters.location ? filters.location : "dubai"}`,
       query: getQueryPrams(filters),
     };
   }, [filters]);
@@ -67,7 +69,7 @@ function SearchBox() {
             title="Area"
             filterType={"area"}
             setFilters={setFilters}
-            unit={"m²"}
+            unit={"sqft"}
           />
         )}
         {moreFilters && (

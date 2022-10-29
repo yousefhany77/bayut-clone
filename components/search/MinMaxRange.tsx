@@ -80,14 +80,14 @@ const MinMaxRange = ({
   }, []);
   return (
     <div
-      className={`border flex flex-col items-center gap-2 p-2 min-h-[4rem] flex-1 relative ${
+      className={`border flex flex-col items-center gap-2 min-h-[4rem] flex-1 relative  bg-white ${
         isOpen ? "h-auto shadow-sm bg-white" : "max-h-20 text-sm  "
       } rounded-lg   focus-within:shadow-lg   ${
         error && "border-2 border-red-400"
       }  `}
     >
       <div
-        className="h-12  flex items-center w-full  "
+        className=" h-full    flex items-center w-full  md:h-12"
         onClick={() => setIsOpen(!isOpen)}
       >
         {(min > 0 || max > 0) && !isOpen ? (
@@ -113,7 +113,7 @@ const MinMaxRange = ({
               </>
             ) : (
               <div className="grid grid-cols-[auto_1fr]">
-                <p className="font-medium ">{title}:</p>
+                <p className="font-medium  ">{title}:</p>
                 <div className="flex justify-around ">
                   <span className="truncate capitalize" data-testid={"min"}>
                     <span className="font-medium ">Min:</span>{" "}
@@ -129,7 +129,7 @@ const MinMaxRange = ({
           </div>
         ) : (
           <p
-            className="font-medium text-lg text-center w-full bg-transparent cursor-pointer"
+            className="font-medium text-lg text-center w-full bg-transparent cursor-pointer "
             ref={titleRef}
           >
             {title}
@@ -143,7 +143,7 @@ const MinMaxRange = ({
       )}
       {isOpen && (
         <div
-          className=" space-y-2  flex items-center flex-wrap gap-1 absolute top-16 mt-2 bg-white p-2 py-4 rounded-lg shadow-lg border z-10"
+          className=" space-y-2  flex items-center flex-wrap gap-1 absolute top-16 mt-2 bg-white p-2 py-4 rounded-lg shadow-lg border z-50"
           ref={targetRef}
         >
           <label htmlFor="min">Min:</label>
@@ -166,6 +166,12 @@ const MinMaxRange = ({
             value={max && max > 0 ? max : ""}
             onChange={(event) => handleChange("max", event)}
           />
+          <button
+            onClick={() => setIsOpen(false)}
+            className="bg-slate-500 w-full py-2 rounded-lg text-white hover:bg-indigo-500 ease-in-out duration-150"
+          >
+            done
+          </button>
         </div>
       )}
     </div>

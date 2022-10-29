@@ -6,7 +6,6 @@ import SearchBox from "../components/search/SearchBox";
 const Home: NextPage = () => {
   return (
     <div className="w-full   ">
-     
       <div className=" h-screen mb-24 mt-10">
         <section className=" mx-auto max-w-[90vw] md:max-w-[75vw] my-5 flex flex-col items-center relative ">
           {/* Hero section */}
@@ -17,9 +16,9 @@ const Home: NextPage = () => {
               placeholder="blur"
               quality={80}
               priority
-              className="object-cover scale-x-[-1] opacity-95 "
+              layout="fill"
+              className="object-cover scale-x-[-1] opacity-95 object-[13%]   "
             />
-            
           </div>
           <SearchBox />
         </section>

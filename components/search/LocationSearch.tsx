@@ -91,7 +91,7 @@ function SearchFilter({ setState: setFilters }: Props) {
           {autocompleteRes?.length > 0 ? (
             <ul
               ref={autoCompletRef}
-              className=" w-full bg-white rounded-lg p-2 mt-2  shadow-lg absolute z-10 "
+              className=" w-full bg-white rounded-lg p-2 mt-2  shadow-lg absolute z-50 "
             >
               {autocompleteRes?.map((res) => (
                 <li
