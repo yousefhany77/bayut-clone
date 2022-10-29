@@ -85,11 +85,20 @@ export interface Filters {
     Min: number;
     Max: number;
   };
-  furnished?: boolean;
+  sort?: SortingMethods;
+  furnished?: furnished;
   rentFrequency?: "monthly" | "yearly" | "weekly" | "daily";
   page?: number;
   hitsPerPage?: number;
 }
+export type furnished = "all" | "furnished" | "unfurnished";
+export type SortingMethods =
+  | "price-desc"
+  | "price-asc"
+  | "city-level-score"
+  | "date-desc"
+  | "verified-score";
+
 export interface PropertiesListingResponse {
   hits: PropertiesListing[];
   nbHits: number;

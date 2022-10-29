@@ -15,17 +15,17 @@ export const Loading: React.FC<{ isRouteChanging: boolean }> = ({
         .container {
           opacity: ${isFinished ? 0 : 1};
           pointer-events: none;
-          transition: opacity ${animationDuration}ms ease;
+          transition: opacity ${animationDuration}ms ease-in-out;
         }
 
         .bar {
-          background: #facc15;
-          height: 3px;
+          background: rgb(99,102,241) ;
+          height: 3.5px;
           left: 0;
           margin-left: margin-left: ${(-1 + progress) * 100}%;
           position: fixed;
           top: 0;
-          transition: margin-left ${animationDuration}ms ease;
+          transition: margin-left ${animationDuration}ms linear;
           width: 100%;
           z-index: 1031;
         }

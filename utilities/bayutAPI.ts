@@ -34,7 +34,7 @@ export const search = async (
 export const fetchProperties = async (filtersPrams: Filters) => {
   try {
     const { data } = await bayutFetch.get(`/properties/list`, {
-      params: { ...filtersPrams, hitsPerPage: 5 } as Filters,
+      params: filtersPrams,
     });
     const response: PropertiesListingResponse = data;
     return response;
