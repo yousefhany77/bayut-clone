@@ -12,14 +12,11 @@ interface Props {
 }
 function PropertyListingCard({ propertyDetails }: Props) {
   const lastIndexLocation = propertyDetails.location.length - 2;
-  const keywords = propertyDetails.keywords
-    .filter((str) => str.match(/[a-z]/i))
-    .slice(0, 6);
+  const keywords = propertyDetails?.keywords
+    ?.filter((str) => str.match(/[a-z]/i))
+    ?.slice(0, 6);
   return (
-    <Link
-      href={`/details/${propertyDetails.externalID} `}
-      prefetch={false}
-    >
+    <Link href={`/details/${propertyDetails.externalID} `} prefetch={false}>
       <div className="grid  md:grid-cols-3 gap-3  rounded-lg   cursor-pointer relative border">
         {/* Badge */}
         <Badge type={propertyDetails.product} />
@@ -69,16 +66,18 @@ function PropertyListingCard({ propertyDetails }: Props) {
           {/* title */}
           <p className="text-lg ">{propertyDetails.title}</p>
           {/* tags */}
-          <div className="flex items-center gap-2 flex-wrap">
-            {keywords.map((keyword) => (
-              <span
-                key={keyword}
-                className="bg-slate-400 text-white text-sm capitalize w-fit px-3  py-1 rounded-full"
-              >
-                {keyword}
-              </span>
-            ))}
-          </div>
+          {keywords && (
+            <div className="flex items-center gap-2 flex-wrap">
+              {keywords.map((keyword) => (
+                <span
+                  key={keyword}
+                  className="bg-slate-400 text-white text-sm capitalize w-fit px-3  py-1 rounded-full"
+                >
+                  {keyword}
+                </span>
+              ))}
+            </div>
+          )}
           {/*  rooms | baths | Area */}
           <div className="flex items-center gap-5 self-end">
             <span className="flex items-center gap-2">

@@ -274,7 +274,7 @@ export interface PhoneNumber {
   mobile: string;
   phone: string;
   whatsapp: string;
-  proxyMobile: string;
+  proxyMobile?: string;
   phoneNumbers: string[];
   mobileNumbers: string[];
 }

@@ -1,4 +1,3 @@
-import { priceFormater } from "../../utilities/PriceFormer";
 import { RiHotelBedFill } from "react-icons/ri";
 import { FaBath, FaLocationArrow } from "react-icons/fa";
 import { MdOutlineGridOn, MdVerified } from "react-icons/md";

@@ -1,5 +1,5 @@
 import { memo, useEffect, useState } from "react";
-import { Filters } from "../../types";
+import { Filters, SortingMethods } from "../../types";
 import DropDown from "../search/DropDown";
 import SearchFilter from "../search/LocationSearch";
 import MinMaxComponent from "../search/MinMaxRange";
@@ -10,27 +10,29 @@ import { useRouter } from "next/router";
 import Sort from "./Sort";
 import FurnishTypeToggle from "./FurnishTypeToggle";
 function PropertFilters() {
-  const { query } = useRouter();
+  const { query, push } = useRouter();
   const [filters, setFilters] = useState<Filters>({
-    locationExternalIDs: "5002",
-    sort: "city-level-score",
+    sort:  "city-level-score",
     furnished: "all",
   });
 
   useEffect(() => {
-    setFilters((prev) => ({ ...prev, ...query }));
+    if (query.locationExternalIDs) {
+      setFilters((prev) => ({ ...prev, ...query }));
+    }
   }, [query]);
-  useEffect(() => {
-    findPropertyWithFilters();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filters.sort, filters.furnished]);
-  const router = useRouter();
+
   const findPropertyWithFilters = () => {
-    router.push({
+    push({
       pathname: `/${filters.location ? filters.location : "dubai"}`,
       query: getQueryPrams(filters),
     });
   };
+  useEffect(() => {
+    if (filters.sort !== "city-level-score") {
+      findPropertyWithFilters();
+    }
+  }, [filters.sort, filters.furnished]);
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div className="flex flex-col ">
@@ -102,8 +104,8 @@ function PropertFilters() {
         </button>{" "}
         {filters.purpose === "for-rent" && (
           <FurnishTypeToggle filters={filters} setFilters={setFilters} />
-          )}
-        <Sort setFilters={setFilters} />
+        )}
+        <Sort setFilters={setFilters} value={filters.sort as SortingMethods} />
       </div>
     </div>
   );

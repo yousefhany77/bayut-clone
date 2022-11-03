@@ -1,49 +1,34 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
-import { QueryClientProvider, QueryClient, Hydrate } from "react-query";
+import {
+  QueryClientProvider,
+  QueryClient,
+  Hydrate,
+  DehydratedState,
+} from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import NavBar from "../components/layout/NavBar";
 import Head from "next/head";
-import { useRouter } from "next/router";
-import Loading from "../components/PagesProgressBar";
+import { Router } from "next/router";
+import ProgressBar from "@badrap/bar-of-progress";
+
 import("../mocks").then(({ setupMocks }) => setupMocks());
 
-function MyApp({ Component, pageProps }: AppProps) {
+const progress = new ProgressBar({
+  size: 3,
+  color: "#facc15",
+  className: "z-50 opacity-80",
+  delay: 100,
+});
+function MyApp({
+  Component,
+  pageProps,
+}: AppProps<{ dehydratedState: DehydratedState }>) {
   const [queryClient] = useState(() => new QueryClient());
-  const router = useRouter();
-
-  const [state, setState] = useState({
-    isRouteChanging: false,
-    loadingKey: 0,
-  });
-
-  useEffect(() => {
-    const handleRouteChangeStart = () => {
-      setState((prevState) => ({
-        ...prevState,
-        isRouteChanging: true,
-        loadingKey: prevState.loadingKey ^ 1,
-      }));
-    };
-
-    const handleRouteChangeEnd = () => {
-      setState((prevState) => ({
-        ...prevState,
-        isRouteChanging: false,
-      }));
-    };
-
-    router.events.on("routeChangeStart", handleRouteChangeStart);
-    router.events.on("routeChangeComplete", handleRouteChangeEnd);
-    router.events.on("routeChangeError", handleRouteChangeEnd);
-
-    return () => {
-      router.events.off("routeChangeStart", handleRouteChangeStart);
-      router.events.off("routeChangeComplete", handleRouteChangeEnd);
-      router.events.off("routeChangeError", handleRouteChangeEnd);
-    };
-  }, [router.events]);
+  Router.events.on("routeChangeStart", progress.start);
+  Router.events.on("routeChangeComplete", progress.finish);
+  Router.events.on("routeChangeError", progress.finish);
   return (
     <QueryClientProvider client={queryClient}>
       <Hydrate state={pageProps.dehydratedState}>
@@ -62,10 +47,6 @@ function MyApp({ Component, pageProps }: AppProps) {
           />
         </Head>
         <NavBar />
-        <Loading
-          isRouteChanging={state.isRouteChanging}
-          key={state.loadingKey}
-        />
 
         <Component {...pageProps} />
         <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
