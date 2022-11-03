@@ -23,28 +23,31 @@ function PropertiesPage() {
     );
 
   const { ref, inView } = useInView();
+
   useEffect(() => {
-    if (!data) {
-      setTimeout(() => {
-        router.push("/agencies/");
-      }, 3000);
-    }
     if (inView && hasNextPage) {
       fetchNextPage();
     }
   }, [inView, hasNextPage]);
 
-  if (data && !isLoading && data.pages[0]?.nbHits === 0)
-    return <p>no data Found</p>;
+  useEffect(() => {
+    if (router.isReady && !slug) {
+      setTimeout(() => {
+        router.push("/agencies/");
+      }, 3000);
+    }
+  }, [router.isReady, slug]);
+
+  console.log((isLoading && !data) || !router.isReady);
   return (
     <section className="flex flex-col mx-auto p-4 max-w-7xl md:p-7 ">
-      {!data && (
+      {router.isReady && !slug && (
         <div className=" w-full h-screen flex flex-col text-red-400 items-center justify-center gap-3">
           <h2>There is No listed Properties for that agency 😟</h2>
           <h3>You Will be directed to the agencies list page in 3 seconds</h3>
         </div>
       )}
-      {isLoading && !data ? (
+      {(isLoading && !data) || !router.isReady ? (
         <div className="space-y-2 my-2">
           <PropertyCardSkelton />
           <PropertyCardSkelton />

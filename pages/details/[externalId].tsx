@@ -8,18 +8,24 @@ import { GetServerSideProps } from "next";
 import { dehydrate, QueryClient, useQuery } from "react-query";
 import { getPropertDetails } from "../../utilities/bayutAPI";
 import PropertyImages from "../../components/propertyDetails/PropertyImages";
-import PropertyOwnerContact from "../../components/propertyDetails/PropertyOwnerContact";
 import Head from "next/head";
 import { priceFormater } from "../../utilities/PriceFormer";
 import ImageSlider from "../../components/propertyDetails/ImageSlider";
 import Spinner from "../../components/layout/Spinner";
 import Modal from "../../components/Modal";
+import { sanitize } from "dompurify";
 const AgencyCard = dynamic(() => import("../../components/agnecy/AgencyCard"), {
   ssr: false,
 });
 const Map = dynamic(() => import("../../components/propertyDetails/Map"), {
   ssr: false,
 });
+const PropertyOwnerContact = dynamic(
+  () => import("../../components/propertyDetails/PropertyOwnerContact"),
+  {
+    ssr: false,
+  }
+);
 function PropertyDetailsPage() {
   const {
     query: { externalId },
@@ -244,7 +250,7 @@ const formatDesc = (str: string, pTag: any): any => {
     return `<p class='my-2 '>${p}.</p>`;
   });
   if (pTag !== null) {
-    pTag.innerHTML = pragraph.join("");
+    pTag.innerHTML = sanitize(pragraph.join(""));
     pTag.querySelector("ul")?.classList?.add("list-disc", "list-inside", "m-2");
     pTag
       .querySelector("ul")
@@ -282,7 +288,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
   );
   const data = queryClient.getQueryData(["property", externalId]) || {};
-  console.log(data);
+ 
   if (Object.keys(data).length === 0) {
     return {
       notFound: true,

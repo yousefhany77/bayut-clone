@@ -1,6 +1,11 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
-import { QueryClientProvider, QueryClient, Hydrate } from "react-query";
+import {
+  QueryClientProvider,
+  QueryClient,
+  Hydrate,
+  DehydratedState,
+} from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { useState } from "react";
 import NavBar from "../components/layout/NavBar";
@@ -16,7 +21,10 @@ const progress = new ProgressBar({
   className: "z-50 opacity-80",
   delay: 100,
 });
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({
+  Component,
+  pageProps,
+}: AppProps<{ dehydratedState: DehydratedState }>) {
   const [queryClient] = useState(() => new QueryClient());
   Router.events.on("routeChangeStart", progress.start);
   Router.events.on("routeChangeComplete", progress.finish);

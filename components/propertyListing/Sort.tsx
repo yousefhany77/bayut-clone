@@ -1,4 +1,3 @@
-import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { MdOutlineArrowDropDown } from "react-icons/md";
 import { Filters, SortingMethods } from "../../types";

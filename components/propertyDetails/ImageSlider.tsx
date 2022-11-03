@@ -26,7 +26,7 @@ function ImageSlider({ photos }: Props) {
 
     sliderRef.current?.parentElement?.addEventListener("scroll", handleScroll);
     return removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [photos.length, postion]);
   const scroll = (dir: "next" | "prev") =>
     sliderRef.current?.parentElement?.scrollBy({
       top: 0,
