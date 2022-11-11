@@ -10,7 +10,7 @@ const options = {
   mode: "no-cors",
   params: { format: "json" },
   headers: {
-    "X-RapidAPI-Key": "e321d87c47msh9ce28926e37de1fp14b927jsne4010be26376",
+    "X-RapidAPI-Key": process.env.NEXT_PUBLIC_GEO_KEY,
     "X-RapidAPI-Host": "ip-geo-location.p.rapidapi.com",
   },
 };
@@ -57,8 +57,7 @@ function ContactForm() {
           {
             params: { number: phone, country: location },
             headers: {
-              "X-RapidAPI-Key":
-                "e321d87c47msh9ce28926e37de1fp14b927jsne4010be26376",
+              "X-RapidAPI-Key": process.env.NEXT_PUBLIC_CHECKPHONE_KEY,
               "X-RapidAPI-Host": "phonenumbervalidatefree.p.rapidapi.com",
             },
           }
