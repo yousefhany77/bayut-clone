@@ -1,16 +1,13 @@
+/* istanbul ignore file */
 import axios, { AxiosError, GenericAbortSignal } from "axios";
 import { AgencyResponse } from "../components/agnecy/agnecyTypes";
 import { PropertyDetails } from "../components/propertyDetails/types";
 import { Filters, Hit, PropertiesListingResponse } from "../types";
 
 export const bayutFetch = axios.create({
-  baseURL: "https://bayut.p.rapidapi.com",
-  headers: {
-    "X-RapidAPI-Key": process.env.NEXT_PUBLIC_RAPID_API_KEY,
-    "X-RapidAPI-Host": "bayut.p.rapidapi.com",
-    "Cache-Control":
-      "public, s-maxage=604800,maxage=604800 , stale-while-revalidate=172800",
-  },
+  baseURL: "http://bayut-api-v1:4000",
+  
+  
 });
 
 export const search = async (
@@ -18,11 +15,11 @@ export const search = async (
   Csignal: GenericAbortSignal | null | undefined
 ) => {
   try {
-    const res = await bayutFetch.get("/auto-complete", {
-      params: { query: location, hitsPerPage: "5", page: "0", lang: "en" },
+    const { data } = await bayutFetch.get("/auto-complete", {
+      params: { location },
       signal: Csignal as GenericAbortSignal,
     });
-    const hits: Hit[] = res.data.hits;
+    const hits: Hit[] = data.hits;
     if (hits.length > 0) return hits;
     return [];
   } catch (err) {
@@ -30,18 +27,19 @@ export const search = async (
     if (error.name == "CanceledError") return;
     else console.log;
     if (error) {
-      return error.message;
+      console.log(error.message);
+      // window.location.href += `/temporary-down`;
     }
   }
 };
 
 export const fetchProperties = async (filtersPrams: Filters) => {
+  console.log(filtersPrams.page);
   try {
     const { data } = await bayutFetch.get(`/properties/list`, {
       params: filtersPrams,
     });
-    const response: PropertiesListingResponse = data;
-    return response;
+    return data as PropertiesListingResponse;
   } catch (error) {
     console.log(error);
   }
@@ -50,7 +48,7 @@ export const fetchProperties = async (filtersPrams: Filters) => {
 export const getPropertDetails = async (id: string) => {
   if (id === undefined) throw new Error("Id is required");
   try {
-    const { data } = await bayutFetch.get("/properties/detail", {
+    const { data } = await bayutFetch.get("/properties/details", {
       params: { externalID: id },
     });
     return data as PropertyDetails;
@@ -74,7 +72,8 @@ export const getAgencyDetails = async (name: string) => {
   }
 };
 
-export const getAgenciesList = async (q = "*", page = 0) => {
+export const getAgenciesList = async (q = "*", page = 1) => {
+  console.log(page);
   try {
     const { data }: { data: AgencyResponse } = await bayutFetch.get(
       "agencies/list",
@@ -88,11 +87,10 @@ export const getAgenciesList = async (q = "*", page = 0) => {
   }
 };
 
-
-export const getAgencyProperties = async (page:number ,agencySlug:string) => {
+export const getAgencyProperties = async (page: number, agencySlug: string) => {
   try {
     const { data } = await bayutFetch.get(`/agencies/get-listings`, {
-      params: {page,agencySlug},
+      params: { page, agencySlug },
     });
     const response: PropertiesListingResponse = data;
     return response;

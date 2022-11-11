@@ -13,7 +13,7 @@ import Head from "next/head";
 import { Router } from "next/router";
 import ProgressBar from "@badrap/bar-of-progress";
 
-import("../mocks").then(({ setupMocks }) => setupMocks());
+// import("../mocks").then(({ setupMocks }) => setupMocks());
 
 const progress = new ProgressBar({
   size: 3,

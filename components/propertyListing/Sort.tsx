@@ -14,14 +14,12 @@ const sortMethods: SortingMethods[] = [
 ];
 function Sort({ setFilters, value }: Props) {
   const [sortMethod, setSortMethod] = useState<SortingMethods>(value);
-  console.log(value);
   const [isOpen, setIsOpen] = useState(false);
   const ulRef = useRef(null);
   const pRef = useRef(null);
   useEffect(() => {
     const handler = (event: Event) => {
       const element = event.target as HTMLElement;
-      console.log(element.parentElement);
       if (element.parentElement !== ulRef.current && element !== pRef.current) {
         setIsOpen(false);
       }

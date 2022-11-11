@@ -2,20 +2,24 @@ import { useInfiniteQuery } from "react-query";
 import { getAgenciesList } from "../../utilities/bayutAPI";
 import { useInView } from "react-intersection-observer";
 import { useEffect, useRef, useState } from "react";
+import { AgencyResponse } from "../../components/agnecy/agnecyTypes";
 import Spinner from "../../components/layout/Spinner";
 import AgencyCard from "../../components/agnecy/AgencyCard";
 function PropertiesPage() {
   const [query, setQuery] = useState<string>("*");
   const { data, isLoading, hasNextPage, fetchNextPage } = useInfiniteQuery(
     [query],
-    ({ pageParam = 1 }) => getAgenciesList(query, pageParam),
+    ({ pageParam }) => getAgenciesList(query, pageParam),
     {
+      cacheTime: 1000 * 60 * 60 * 24 * 7,
+      staleTime: 1000 * 60 * 60 * 24 * 1,
       refetchOnMount: false,
       refetchOnWindowFocus: false,
-      cacheTime: 1000 * 60 * 60 * 24 * 2,
-      staleTime: 1000 * 60 * 60 * 24,
-
-      getNextPageParam: (lastPage) => lastPage?.page,
+      enabled:!!query,
+      getNextPageParam: (currpage) => {
+        const page = currpage as AgencyResponse;
+        return page.page === page?.nbPages ? undefined : page.page + 1;
+      },
     }
   );
   const { ref, inView } = useInView();
@@ -46,7 +50,9 @@ function PropertiesPage() {
           className="h-16 border bg-white shadow rounded-xl px-5 w-full"
           ref={agencyRef}
         />
-        <button className="bg-yellow-400 w-full text-lg text-slate-50 my-2 h-12 rounded-xl hover:bg-yellow-600 transition-colors ease-out">Search</button>
+        <button className="bg-yellow-400 w-full text-lg text-slate-50 my-2 h-12 rounded-xl hover:bg-yellow-600 transition-colors ease-out">
+          Search
+        </button>
       </form>
       <div className="w-full"></div>
       {isLoading && !data ? (

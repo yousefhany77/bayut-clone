@@ -67,6 +67,7 @@ function PropertyDetailsPage() {
       navigator.clipboard.writeText(location.href);
     }
   };
+
   if (data)
     return (
       <main className="max-w-7xl mx-auto p-5  ">
@@ -282,13 +283,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   await queryClient.prefetchQuery(
     ["property", externalId],
     () => getPropertDetails(externalId as string),
-    {
-      cacheTime: 1000 * 60 * 60 * 24 * 2,
-      staleTime: 1000 * 60 * 60 * 24,
-    }
+    {}
   );
   const data = queryClient.getQueryData(["property", externalId]) || {};
- 
+
   if (Object.keys(data).length === 0) {
     return {
       notFound: true,

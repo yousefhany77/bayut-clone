@@ -9,6 +9,7 @@ import TogglePropertyTypeSquare from "./PropertyTypeSquare";
 import { useRouter } from "next/router";
 import Sort from "./Sort";
 import FurnishTypeToggle from "./FurnishTypeToggle";
+let i = 1
 function PropertFilters() {
   const { query, push } = useRouter();
   const [filters, setFilters] = useState<Filters>({
@@ -24,7 +25,7 @@ function PropertFilters() {
 
   const findPropertyWithFilters = () => {
     push({
-      pathname: `/${filters.location ? filters.location : "dubai"}`,
+      pathname: `/${filters.location ? filters.location : "uae"}`,
       query: getQueryPrams(filters),
     });
   };
@@ -34,6 +35,7 @@ function PropertFilters() {
     }
   }, [filters.sort, filters.furnished]);
   const [isOpen, setIsOpen] = useState(false);
+  console.log("Hello",i++)
   return (
     <div className="flex flex-col ">
       <button
