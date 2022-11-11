@@ -5,7 +5,7 @@ import { PropertyDetails } from "../components/propertyDetails/types";
 import { Filters, Hit, PropertiesListingResponse } from "../types";
 
 export const bayutFetch = axios.create({
-  baseURL: "http://bayut-api-v1:4000",
+  baseURL: "http://localhost:4000",
   
   
 });
