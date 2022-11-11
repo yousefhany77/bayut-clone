@@ -1,5 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        destination: 'http://bayut-api-v1:4000/:path*',
+      },
+    ]
+  },
   reactStrictMode: false,
   swcMinify: true,
   images: {

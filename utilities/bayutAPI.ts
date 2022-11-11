@@ -5,9 +5,7 @@ import { PropertyDetails } from "../components/propertyDetails/types";
 import { Filters, Hit, PropertiesListingResponse } from "../types";
 
 export const bayutFetch = axios.create({
-  baseURL: "http://localhost:4000",
-  
-  
+  baseURL: "/api",
 });
 
 export const search = async (
@@ -61,7 +59,7 @@ export const getAgencyDetails = async (name: string) => {
   if (!name) throw new Error("Name is required");
   try {
     const { data }: { data: AgencyResponse } = await bayutFetch.get(
-      "agencies/list",
+      "/agencies/list",
       {
         params: { query: name },
       }
@@ -76,7 +74,7 @@ export const getAgenciesList = async (q = "*", page = 1) => {
   console.log(page);
   try {
     const { data }: { data: AgencyResponse } = await bayutFetch.get(
-      "agencies/list",
+      "/agencies/list",
       {
         params: { query: q, page: page },
       }
