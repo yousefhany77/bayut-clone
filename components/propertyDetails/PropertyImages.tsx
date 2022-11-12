@@ -3,6 +3,7 @@ import { useState } from "react";
 import Modal from "../Modal";
 import { IoExit } from "react-icons/io5";
 import ImageSlider from "./ImageSlider";
+import placeholder from "../../public/placeholder.jpg";
 type Photo = {
   id: number;
   title: string;
@@ -38,10 +39,10 @@ function PropertyImages({ photos }: Props) {
 
         <div className="bg-sky-slate col-span-4 row-span-full relative">
           <Image
-            src={photos[0].url}
+            src={photos[0] ? photos[0].url : placeholder}
+            alt={photos[0] ? photos[0].title : "property image"}
             layout="fill"
             objectFit="cover"
-            alt={photos[0].title}
             priority
           />
         </div>
@@ -65,27 +66,27 @@ function PropertyImages({ photos }: Props) {
         </span>
         <div className=" col-span-2 row-span-full relative">
           <Image
-            src={photos[0].url}
+           src={photos[0] ? photos[0].url : placeholder}
+           alt={photos[0] ? photos[0].title : "property image"}
             layout="fill"
             objectFit="cover"
-            alt={photos[0].title}
             priority
           />
         </div>
         <div className="relative">
           <Image
-            src={photos[1].url}
+            src={photos[1] ? photos[1].url : placeholder}
             layout="fill"
             objectFit="cover"
-            alt={photos[1].title}
+            alt={photos[1] ? photos[1].title : "property image"}
           />
         </div>
         <div className="relative">
           <Image
-            src={photos[2].url}
+            src={photos[2] ? photos[2].url : placeholder}
             layout="fill"
             objectFit="cover"
-            alt={photos[2].title}
+            alt={photos[2] ? photos[2].title : "property image"}
           />
         </div>
       </div>
