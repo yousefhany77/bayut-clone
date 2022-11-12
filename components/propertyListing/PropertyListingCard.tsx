@@ -6,11 +6,13 @@ import { FaBath, FaLocationArrow } from "react-icons/fa";
 import { MdOutlineGridOn, MdVerified } from "react-icons/md";
 import Badge from "./Badge";
 import Link from "next/link";
+import placeholder from "../../public/placeholder.jpg";
 
 interface Props {
   propertyDetails: PropertiesListing;
 }
 function PropertyListingCard({ propertyDetails }: Props) {
+  console.log(propertyDetails);
   const lastIndexLocation = propertyDetails.location.length - 2;
   const keywords = propertyDetails?.keywords
     ?.filter((str) => str.match(/[a-z]/i))
@@ -24,7 +26,11 @@ function PropertyListingCard({ propertyDetails }: Props) {
 
         <Image
           // src={propertyImg}
-          src={propertyDetails.coverPhoto.url}
+          src={
+            propertyDetails.coverPhoto
+              ? propertyDetails.coverPhoto.url
+              : placeholder
+          }
           alt={propertyDetails.title}
           objectFit="cover"
           width={800}
@@ -95,9 +101,12 @@ function PropertyListingCard({ propertyDetails }: Props) {
                 {propertyDetails.area.toFixed(2).toLocaleString()} sqft
               </span>
             </span>
-            <span className="hidden md:block font-medium text-sm text-slate-800 ml-auto font-sans">
-              by: {propertyDetails.contactName} @ {propertyDetails.agency.name}
-            </span>
+            {propertyDetails.agency && (
+              <span className="hidden md:block font-medium text-sm text-slate-800 ml-auto font-sans">
+                by: {propertyDetails.contactName} @{" "}
+                {propertyDetails.agency.name}
+              </span>
+            )}
           </div>
         </div>
       </div>
