@@ -5,9 +5,9 @@ interface Props {
 }
 function FurnishTypeToggle({ filters, setFilters }: Props) {
   return (
-    <div className="flex space-x-3 items-center mt-6 mb-3">
-      <span className="font-medium">Furnish Type :</span>
-      <div className="flex  bg-slate-200 rounded-lg overflow-hidden ">
+    
+      
+      <div className="flex h-10 bg-slate-200 rounded-lg overflow-hidden ">
         {["All", "Furnished", "Unfurnished"].map((value, i) => (
           <span
             className={`cursor-pointer py-1.5 px-2.5 transition-colors duration-150 ease-in-out ${
@@ -27,7 +27,7 @@ function FurnishTypeToggle({ filters, setFilters }: Props) {
           </span>
         ))}
       </div>
-    </div>
+   
   );
 }
 

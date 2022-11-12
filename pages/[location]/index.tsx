@@ -29,7 +29,7 @@ function PropertiesPage() {
     if (inView && hasNextPage) {
       fetchNextPage();
     }
-  }, [inView, hasNextPage]);
+  }, [inView, hasNextPage, fetchNextPage]);
 
   if (data && !isLoading && data.pages[0]?.nbHits === 0) return <p>no data</p>;
   return (
@@ -43,7 +43,7 @@ function PropertiesPage() {
       ) : (
         <div className="flex flex-col gap-3">
           <PropertFilters />
-          <hr className="my-5" />
+          <hr className="my-2" />
           <h1 className=" text-xl md:text-3xl capitalize text-slate-800 mb-5 ">
             Properties {filters.purpose?.replace("-", " ")} in{" "}
             {filters.location} ({data?.pages[0]?.nbHits})

@@ -6,12 +6,12 @@ import {
   Hydrate,
   DehydratedState,
 } from "react-query";
-import { ReactQueryDevtools } from "react-query/devtools";
 import { useState } from "react";
 import NavBar from "../components/layout/NavBar";
 import Head from "next/head";
 import { Router } from "next/router";
 import ProgressBar from "@badrap/bar-of-progress";
+import Footer from "../components/layout/Footer";
 
 // import("../mocks").then(({ setupMocks }) => setupMocks());
 
@@ -49,7 +49,7 @@ function MyApp({
         <NavBar />
 
         <Component {...pageProps} />
-        <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
+        <Footer />
       </Hydrate>
     </QueryClientProvider>
   );

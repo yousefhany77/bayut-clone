@@ -30,18 +30,19 @@ function Sort({ setFilters, value }: Props) {
   }, []);
 
   return (
-    <div className=" min-w-[150px] bg-slate-200 rounded-lg  capitalize relative flex flex-col items-center z-10  ml-auto">
+    <div className=" min-w-[150px] bg-slate-200 rounded-lg  capitalize relative flex flex-col items-center z-10  ml-auto mt-2 h-10">
       <p
         ref={pRef}
         onClick={() => setIsOpen((prev) => !prev)}
         className="flex items-center gap-1 cursor-pointer py-1.5 px-3 "
       >
-        sort: {formatSortText(sortMethod)} <MdOutlineArrowDropDown />
+        sort: {formatSortText(sortMethod)}{" "}
+          <MdOutlineArrowDropDown className="pointer-events-none"/>
       </p>
       {isOpen && (
         <ul
           ref={ulRef}
-          className="absolute top-10 bg-slate-200 rounded-lg overflow-hidden w-full"
+          className="absolute top-10 bg-slate-200 rounded-lg overflow-hidden w-full my-2"
         >
           {sortMethods
             .filter((selectedValue) => selectedValue !== sortMethod)

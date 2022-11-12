@@ -37,6 +37,7 @@ function PropertyListingCard({ propertyDetails }: Props) {
           <div className="text-xl space-y-1">
             {/* Price */}
             <h2 className="flex items-center ">
+              
               {priceFormater(propertyDetails.price, false)}
               <span className="font-normal text-lg ml-2 ">
                 {propertyDetails.purpose === "for-rent" &&

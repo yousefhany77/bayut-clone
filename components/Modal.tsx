@@ -7,6 +7,7 @@ interface Props {
 }
 
 function Modal({ isOpen, children }: Props) {
+
   const portal = document.getElementById("portal");
   const ref = useRef<HTMLDivElement>(null);
 

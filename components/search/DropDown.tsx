@@ -50,7 +50,7 @@ function DropDown({ setState }: Props) {
     event.target.value.trim().length === 0
       ? setRESIDENTIAL_VALUES(Object.entries(residential_data))
       : setRESIDENTIAL_VALUES(() => values);
-  }, []);
+  }, [RESIDENTIAL_VALUES]);
   const setResidential = useCallback((Target: number) => {
     setState((filters) => ({
       ...filters,
@@ -95,7 +95,7 @@ function DropDown({ setState }: Props) {
           />
           <MdOutlineArrowDropDownCircle
             size={23}
-            className={`text-gray-600  cursor-pointer ${
+            className={`text-gray-600  cursor-pointer  ${
               !drop && "rotate-90 "
             } transition-all duration-300  ease-in `}
             onClick={() => {

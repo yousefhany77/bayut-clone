@@ -5,9 +5,11 @@ import { Filters, Hit } from "../../types";
 import * as bayut from "../../utilities/bayutAPI";
 interface Props {
   setState: (filters: (filter: Filters) => Filters) => unknown;
+  isError: boolean;
+  setIsError: (isError: boolean) => unknown;
 }
 
-function SearchFilter({ setState: setFilters }: Props) {
+function SearchFilter({ setState: setFilters, setIsError, isError }: Props) {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [autocompleteRes, setAutocomplete] = useState<Hit[]>([]);
   const [drop, setDrop] = useState<boolean>(false);
@@ -18,25 +20,34 @@ function SearchFilter({ setState: setFilters }: Props) {
   const setLocation = (locationName: string, locationId: string) => {
     setSelectedLocation(locationName);
 
-    setAutocomplete([]);
     setFilters((filters) => ({
       ...filters,
       location: locationName,
       locationExternalIDs: locationId.toString(),
     }));
   };
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   useEffect(() => {
+    setIsLoading(true);
+    setAutocomplete([]);
     const controller = new AbortController();
-
     const autocomplete = async () => {
+      setDrop(true);
       const hits = await bayut.search(searchTerm, controller.signal);
-      if (hits?.length && Array.isArray(hits)) {
+      
+      if (hits?.length && hits.length > 0 && Array.isArray(hits)) {
+        setIsLoading(false);
         setAutocomplete(hits);
+        setIsError(false);
+      } else if (!hits || hits.length === 0) {
+        setAutocomplete([]);
+        setIsError(true);
+        setIsLoading(false);
       }
     };
     if (searchTerm.length > 2) autocomplete();
     return () => controller.abort();
-  }, [searchTerm]);
+  }, [searchTerm, setIsError]);
   useEffect(() => {
     const handler = (event: Event) => {
       const element = event.target as HTMLElement;
@@ -52,7 +63,9 @@ function SearchFilter({ setState: setFilters }: Props) {
     <div className="relative">
       <div
         onClick={() => inputRef.current?.focus()}
-        className="group border flex  items-center gap-2 px-3 h-16 rounded-lg  focus-within:shadow-lg shadow-black focus-within:bg-white relative"
+        className={`group border flex  items-center gap-2 px-3 h-16 rounded-lg ${
+          isError ? "border-rose-500" : "border-slate-200"
+        }   focus-within:shadow-lg shadow-black focus-within:bg-white relative`}
       >
         <CiLocationArrow1 size={23} className="text-gray-600" />
         {selectedLocation ? (
@@ -70,6 +83,7 @@ function SearchFilter({ setState: setFilters }: Props) {
           <input
             type="text"
             id="Enter Location"
+            ref={inputRef}
             value={searchTerm}
             placeholder="Enter Location"
             onChange={(event) => setSearchTerm(event?.target.value)}
@@ -86,9 +100,15 @@ function SearchFilter({ setState: setFilters }: Props) {
           Enter Location
         </label>
       </div>
-      {drop && (
+      {isLoading && searchTerm.length > 0 ? (
+        <div className="p-2 my-2 cursor-pointer  snap-end bg-slate-300 text-indigo-700 rounded-lg transition-colors duration-100 ease-out flex justify-start items-center gap-3 ">
+          <span className="animate-pulse font-medium mx-auto block">
+            searching for your location...
+          </span>
+        </div>
+      ) : (
         <div className=" ">
-          {autocompleteRes?.length > 0 ? (
+          {autocompleteRes?.length > 0 && drop ? (
             <ul
               ref={autoCompletRef}
               className=" w-full bg-white rounded-lg p-2 mt-2  shadow-lg absolute z-50 "
@@ -109,8 +129,13 @@ function SearchFilter({ setState: setFilters }: Props) {
             </ul>
           ) : (
             <p
-              className={`p-2 cursor-pointer text-center border bg-blue-300 mt-3  hover:bg-slate-300 rounded-lg transition-colors duration-100 ease-out hidden ${
-                searchTerm.length > 1 && autocompleteRes?.length > 0 && "block"
+              className={`p-2 cursor-pointer text-center border bg-blue-300 mt-3  hover:bg-slate-300 rounded-lg transition-colors duration-100 ease-out  ${
+                searchTerm.length > 3 &&
+                isError &&
+                !isLoading &&
+                autocompleteRes.length === 0
+                  ? "block"
+                  : "hidden"
               }`}
             >
               Sorry Not Found 🥹
@@ -122,4 +147,4 @@ function SearchFilter({ setState: setFilters }: Props) {
   );
 }
 
-export default memo(SearchFilter);
+export default SearchFilter;

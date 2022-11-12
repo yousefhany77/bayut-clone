@@ -56,13 +56,13 @@ function PropertyDetailsPage() {
   const [sharePortalIsOpen, setSharePortalIsOpen] = useState(false);
   const share = () => {
     // if browser supports web share api -> try to share with web share api
-    try {
+    if (navigator.share) {
       navigator.share({
         title: data?.title || document.title,
         url: window.location.href,
         text: "That is a demo app built with NextJs with integration with the bayut API \n  @github.com/yousefhany77/",
       });
-    } catch (error) {
+    } else {
       setSharePortalIsOpen(true);
       navigator.clipboard.writeText(location.href);
     }
@@ -224,6 +224,7 @@ function PropertyDetailsPage() {
                 name={data.agency.name}
                 phoneNumber={data.phoneNumber}
                 contactName={data.contactName}
+                
               />
             </div>
           </div>

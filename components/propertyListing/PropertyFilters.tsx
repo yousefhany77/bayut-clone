@@ -1,4 +1,4 @@
-import { memo, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { Filters, SortingMethods } from "../../types";
 import DropDown from "../search/DropDown";
 import SearchFilter from "../search/LocationSearch";
@@ -9,13 +9,17 @@ import TogglePropertyTypeSquare from "./PropertyTypeSquare";
 import { useRouter } from "next/router";
 import Sort from "./Sort";
 import FurnishTypeToggle from "./FurnishTypeToggle";
-let i = 1
+import Modal from "../Modal";
+import { IoExit } from "react-icons/io5";
 function PropertFilters() {
   const { query, push } = useRouter();
   const [filters, setFilters] = useState<Filters>({
-    sort:  "city-level-score",
+    sort: "city-level-score",
     furnished: "all",
   });
+  const [isError, setIsError] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [errorMessageIsopen, setErrorMessageIsOpen] = useState(false);
 
   useEffect(() => {
     if (query.locationExternalIDs) {
@@ -24,20 +28,47 @@ function PropertFilters() {
   }, [query]);
 
   const findPropertyWithFilters = () => {
-    push({
-      pathname: `/${filters.location ? filters.location : "uae"}`,
-      query: getQueryPrams(filters),
-    });
-  };
+    if (!isError ) {
+      push({
+        pathname: `/${filters.location ? filters.location : "uae"}`,
+        query: getQueryPrams(filters),
+      });
+      console.log("pushing");
+      setErrorMessageIsOpen(false);
+    } else {
+      console.log("Here Error");
+      setErrorMessageIsOpen(true);
+    }
+  }
+
   useEffect(() => {
     if (filters.sort !== "city-level-score") {
       findPropertyWithFilters();
     }
   }, [filters.sort, filters.furnished]);
-  const [isOpen, setIsOpen] = useState(false);
-  console.log("Hello",i++)
   return (
     <div className="flex flex-col ">
+      {errorMessageIsopen && (
+        <Modal isOpen={errorMessageIsopen}>
+          <div className="flex flex-col items-center justify-center h-full ">
+            <div className="bg-white p-7 rounded-xl  ">
+              <div className="flex mb-5 justify-between w-full">
+                <h2 className="font-semibold">Error</h2>
+                <span
+                  onClick={() => setErrorMessageIsOpen(false)}
+                  className="rounded-full text-rose-500  cursor-pointer hover:text-rose-700 transition-colors duration-100 ease-in flex gap-2 items-center justify-end"
+                >
+                  Exit
+                  <IoExit size={22} />
+                </span>
+              </div>
+              <h2 className="font-medium text-lg capitalize text-rose-400 shadow-inner px-4 py-2 rounded-xl bg-slate-100">
+                please provide an valid property location
+              </h2>
+            </div>
+          </div>
+        </Modal>
+      )}
       <button
         onClick={() => setIsOpen(false)}
         className={`${
@@ -54,7 +85,11 @@ function PropertFilters() {
         }`}
       >
         {/* Location */}
-        <SearchFilter setState={setFilters} />
+        <SearchFilter
+          setState={setFilters}
+          isError={isError}
+          setIsError={setIsError}
+        />
         {/* residential */}
         <DropDown setState={setFilters} />
         {/* Filter Price */}
@@ -97,9 +132,9 @@ function PropertFilters() {
           />
         </button>
       </div>
-      <div className="flex items-center  ">
+      <div className="flex items-center flex-wrap ">
         <button
-          className="lg:hidden m-2 bg-indigo-500 text-white py-2  px-4 rounded-md  "
+          className="lg:hidden m-2 bg-indigo-500 text-white py-2  px-4  h-10 rounded-lg "
           onClick={() => setIsOpen((prev) => !prev)}
         >
           Filters ⚡
