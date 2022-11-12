@@ -44,6 +44,8 @@ function TopProperties({ title, locationExternalIDs }: Props) {
                   alt={property.title}
                   layout={"fill"}
                   objectFit={"cover"}
+                  quality={60}
+                  priority
                   className="hover:scale-125 transition-all ease duration-150 cursor-pointer"
                 />
               </div>

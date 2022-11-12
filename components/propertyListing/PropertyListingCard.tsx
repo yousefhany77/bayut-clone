@@ -27,9 +27,10 @@ function PropertyListingCard({ propertyDetails }: Props) {
           src={propertyDetails.coverPhoto.url}
           alt={propertyDetails.title}
           objectFit="cover"
-          width={1600 / 2}
-          height={1200 / 2}
+          width={800}
+          height={600}
           className="rounded-lg "
+          quality={60}
         />
 
         {/* Details */}
@@ -37,7 +38,6 @@ function PropertyListingCard({ propertyDetails }: Props) {
           <div className="text-xl space-y-1">
             {/* Price */}
             <h2 className="flex items-center ">
-              
               {priceFormater(propertyDetails.price, false)}
               <span className="font-normal text-lg ml-2 ">
                 {propertyDetails.purpose === "for-rent" &&
