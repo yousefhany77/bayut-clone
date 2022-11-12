@@ -15,6 +15,7 @@ COPY . .
 RUN npm run build
 RUN rm -rf ./node_modules
 RUN npm ci ---omit=dev --ignore-scripts
+RUN npm i sharp
 
 # RUN production
 FROM node:16-alpine AS runner
