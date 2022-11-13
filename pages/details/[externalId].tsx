@@ -224,7 +224,6 @@ function PropertyDetailsPage() {
                 name={data.agency.name}
                 phoneNumber={data.phoneNumber}
                 contactName={data.contactName}
-                
               />
             </div>
           </div>
