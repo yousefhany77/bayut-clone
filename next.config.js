@@ -4,7 +4,7 @@ const nextConfig = {
     return [
       {
         source: '/api/:path*',
-        destination: 'http://bayut-api-v1:4000/:path*',
+        destination: 'https://apiv2.youssefhany.xyz/:path*',
       },
     ]
   },
