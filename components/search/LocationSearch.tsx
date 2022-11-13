@@ -138,7 +138,7 @@ function SearchFilter({ setState: setFilters, setIsError, isError }: Props) {
                   : "hidden"
               }`}
             >
-              Sorry Not Found 🥹
+              Sorry Not Found 🥺
             </p>
           )}
         </div>

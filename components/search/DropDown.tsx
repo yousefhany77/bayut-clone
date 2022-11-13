@@ -126,7 +126,7 @@ function DropDown({ setState }: Props) {
             ))
           ) : (
             <li className="p-2 cursor-pointer text-center  hover:bg-slate-300 rounded-lg transition-colors duration-100 ease-out">
-              Sorry Not Found 🥹
+              Sorry Not Found 🥺
             </li>
           )}
         </ul>
