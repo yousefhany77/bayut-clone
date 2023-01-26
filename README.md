@@ -21,17 +21,15 @@ In this project, I utilized JavaScript, TypeScript, Next.js, Tailwind CSS, Jest,
 
 ## How I reduced API response time & cost by  87.33%?
 ![bayut api](https://res.cloudinary.com/dlutaqccw/image/upload/v1672693112/Untitled_2022_12_04_1627_cb27ee6dff.png)
-The third-party API allows only 500 requests per month and responds in 3.7 to 4.17 seconds, which is a long time; this is insufficient, and plans start at $20 for 10k requests, because the data does not change frequently. So I used Redis to cache the search results and the listing results per city with the same filtering parameters for TTL = 1 day to 3 days.
-If I sent 1,000 requests to list all the properties listed in Dubai
- I used Oracle's free tier [Here](https://www.oracle.com/eg/cloud/free/)
-Redis costs me zero dollars 
-### Before the optimization
-Cost per thousand requests = $0.002 * 1000 = 2$.   
-response time for each request = 4.7 seconds
-### After the optimization
-The initial request given to the client and added to the Redis database costs $0.002 for calling Rabid API.              
-The remainder of the requests (999) were served from the Redis database, which costs nothing and has a 64%–87.33% quicker response time to the client than the third-party API (570 ms).       
-_Please keep in mind that each request is only charged once every one to three days._
+When I first started working on Bayut, I quickly realized that the third-party API I was using had some limitations. It only allowed for 500 requests per month and had a slow response time of 3.7 to 4.17 seconds. Additionally, plans for the API started at $20 for 10k requests, which wasn't cost-effective since the data I was pulling from the API didn't change frequently.
+
+To overcome these limitations, I implemented a caching layer using Redis database. I cached the search results and the listing results per city with the same filtering parameters, and set the time-to-live (TTL) to 1 day to 3 days. This allowed me to dramatically improve the response time and reduce costs.
+
+For example, let's say I sent 1,000 requests to list all the properties listed in Dubai. Before the optimization, the cost would have been $0.002 per request, for a total cost of $2. The response time for each request would have been 4.7 seconds.
+
+After implementing the caching layer, the initial request given to the client and added to the Redis database costs $0.002 for calling Rabid API. The remainder of the requests (999) were served from the Redis database, which costs nothing and has a 64%–87.33% quicker response time to the client than the third-party API (570 ms).
+
+It's worth noting that each request is only charged once every one to three days. This means that even if a user makes multiple requests within that time frame, they will only be charged for the initial request.
 #### Backend 
 
 [Github link](https://github.com/yousefhany77/bayut-clone)
