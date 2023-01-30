@@ -1,41 +1,24 @@
 import Image from "next/image";
-import React from "react";
-import { FaBath, FaLocationArrow } from "react-icons/fa";
-import { RiHotelBedFill } from "react-icons/ri";
-import { useQuery } from "react-query";
-import { fetchProperties } from "../../utilities/bayutAPI";
-import { MdOutlineGridOn } from "react-icons/md";
 import Link from "next/link";
-import Spinner from "../layout/Spinner";
+import { FaBath, FaLocationArrow } from "react-icons/fa";
+import { MdOutlineGridOn } from "react-icons/md";
+import { RiHotelBedFill } from "react-icons/ri";
+import { PropertiesListingResponse } from "../../types";
 import { priceFormater } from "../../utilities/PriceFormer";
 interface Props {
-  title: string;
-  locationExternalIDs: string;
+  properties: PropertiesListingResponse | undefined;
 }
 
-function TopProperties({ title, locationExternalIDs }: Props) {
-  const { data, isLoading, isFetching } = useQuery(
-    ["title", locationExternalIDs],
-    () => fetchProperties({ locationExternalIDs, categoryExternalID: 16 }),
-    {
-      refetchOnWindowFocus: false,
-      refetchOnMount: false,
-      staleTime: 1000 * 60 * 60 * 24,
-    }
-  );
-  if (isLoading || isFetching)
-    return (
-      <div className="mx-auto bg-slate-200 w-5/6 p-5 mt-12 rounded-xl">
-        <Spinner />
-      </div>
-    );
+function TopProperties({ properties }: Props) {
+  console.log(properties);
+ 
   return (
-    <div className=" p-5 w-5/6 mx-auto">
+    <section className=" p-5 w-5/6 mx-auto">
       <h2 className="text-slate-700 xl:text-3xl font-bold p-5 bg-slate-50 border my-3 shadow w-fit rounded-2xl">
-        {title}
+        {properties?.hits.length} Properties for sale in Dubai
       </h2>
-      <section className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4   gap-3  ">
-        {data?.hits.splice(0, 8).map((property) => (
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4   gap-3  ">
+        {properties?.hits.splice(0, 8).map((property) => (
           <Link key={property.id} href={`/details/${property.externalID}`}>
             <div className=" border p-2  rounded-2xl overflow-hidden shadow grid cursor-pointer hover:bg-slate-100 duration-200 ease-in-out  ">
               <div className=" w-full  h-80 relative rounded-2xl overflow-hidden ">
@@ -45,7 +28,6 @@ function TopProperties({ title, locationExternalIDs }: Props) {
                   layout={"fill"}
                   objectFit={"cover"}
                   quality={60}
-      
                   className="hover:scale-125 transition-all ease duration-150 cursor-pointer"
                 />
               </div>
@@ -82,9 +64,10 @@ function TopProperties({ title, locationExternalIDs }: Props) {
             </div>
           </Link>
         ))}
-      </section>
-    </div>
+      </div>
+    </section>
   );
 }
 
 export default TopProperties;
+

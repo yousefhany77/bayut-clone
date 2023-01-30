@@ -2,14 +2,9 @@ import type { NextPage } from "next";
 import Image from "next/image";
 import Hero from "../public/Hero.jpg";
 import dynamic from "next/dynamic";
-import { Suspense } from "react";
 import Spinner from "../components/layout/Spinner";
 const SearchBox = dynamic(() => import("../components/search/SearchBox"), {
-  ssr: true,
-  loading: () => <Spinner />,
-});
-const TopProperties = dynamic(() => import("../components/propertyListing/TopProperties"), {
-  ssr: true,
+  ssr: false,
   loading: () => <Spinner />,
 });
 
@@ -27,23 +22,13 @@ const Home: NextPage = () => {
               quality={75}
               priority
               layout="fill"
-              sizes="(max-width: 1024px) 100vw,
-              (max-width: 1200px) 50vw"
+              sizes="(max-width: 1024px) 100vw, 1024px"
               className="object-cover scale-x-[-1] opacity-95 object-[13%]   "
             />
           </div>
-          <Suspense fallback={<Spinner />}>
-            <SearchBox />
-          </Suspense>
+          <SearchBox />
         </section>
       </div>
-      <section className="">
-        <hr className="max-w-7xl mx-auto my-20 px-5 border  border-slate-200/50" />
-        <h2 className="text-center capitalize text-indigo-600 text-lg  underline underline-offset-4 decoration-2 decoration-yellow-400 lg:text-4xl">
-          trending Properties in UAE 🇦🇪
-        </h2>
-        <TopProperties title="Dubai" locationExternalIDs={"5002"} />
-      </section>
     </div>
   );
 };
