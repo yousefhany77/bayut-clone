@@ -9,6 +9,7 @@ const TopProperties = dynamic(
   () => import("../components/propertyListing/TopProperties"),
   {
     suspense: true,
+    ssr: false,
   }
 );
 
@@ -23,9 +24,11 @@ const Home: NextPage = () => {
               alt="building"
               src={Hero}
               placeholder="blur"
-              quality={80}
+              quality={75}
               priority
               layout="fill"
+              sizes="(max-width: 1024px) 100vw,
+              (max-width: 1200px) 50vw"
               className="object-cover scale-x-[-1] opacity-95 object-[13%]   "
             />
           </div>

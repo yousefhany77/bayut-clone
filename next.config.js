@@ -11,7 +11,7 @@ const nextConfig = {
   reactStrictMode: false,
   swcMinify: true,
   images: {
-    formats: ["image/avif", "image/webp"],
+    formats: ["image/webp"],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     domains: ["bayut-production.s3.eu-central-1.amazonaws.com"],
   },
