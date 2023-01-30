@@ -10,15 +10,14 @@ interface Props {
 }
 
 function TopProperties({ properties }: Props) {
-  console.log(properties);
- 
+  if (!properties) return null;
   return (
     <section className=" p-5 w-5/6 mx-auto">
       <h2 className="text-slate-700 xl:text-3xl font-bold p-5 bg-slate-50 border my-3 shadow w-fit rounded-2xl">
-        {properties?.hits.length} Properties for sale in Dubai
+        Properties for sale in Dubai
       </h2>
       <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4   gap-3  ">
-        {properties?.hits.splice(0, 8).map((property) => (
+        {properties?.hits.map((property) => (
           <Link key={property.id} href={`/details/${property.externalID}`}>
             <div className=" border p-2  rounded-2xl overflow-hidden shadow grid cursor-pointer hover:bg-slate-100 duration-200 ease-in-out  ">
               <div className=" w-full  h-80 relative rounded-2xl overflow-hidden ">
@@ -70,4 +69,3 @@ function TopProperties({ properties }: Props) {
 }
 
 export default TopProperties;
-
