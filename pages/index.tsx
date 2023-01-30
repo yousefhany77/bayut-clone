@@ -8,6 +8,7 @@ const SearchBox = dynamic(() => import("../components/search/SearchBox"), {
   loading: () => <Spinner />,
 });
 
+
 const Home: NextPage = () => {
   return (
     <div className="w-full   ">
