@@ -1,17 +1,17 @@
 import type { NextPage } from "next";
 import Image from "next/image";
 import Hero from "../public/Hero.jpg";
-import SearchBox from "../components/search/SearchBox";
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
 import Spinner from "../components/layout/Spinner";
-const TopProperties = dynamic(
-  () => import("../components/propertyListing/TopProperties"),
-  {
-    suspense: true,
-    ssr: false,
-  }
-);
+const SearchBox = dynamic(() => import("../components/search/SearchBox"), {
+  ssr: true,
+  loading: () => <Spinner />,
+});
+const TopProperties = dynamic(() => import("../components/propertyListing/TopProperties"), {
+  ssr: true,
+  loading: () => <Spinner />,
+});
 
 const Home: NextPage = () => {
   return (
@@ -32,7 +32,9 @@ const Home: NextPage = () => {
               className="object-cover scale-x-[-1] opacity-95 object-[13%]   "
             />
           </div>
-          <SearchBox />
+          <Suspense fallback={<Spinner />}>
+            <SearchBox />
+          </Suspense>
         </section>
       </div>
       <section className="">
@@ -40,9 +42,7 @@ const Home: NextPage = () => {
         <h2 className="text-center capitalize text-indigo-600 text-lg  underline underline-offset-4 decoration-2 decoration-yellow-400 lg:text-4xl">
           trending Properties in UAE 🇦🇪
         </h2>
-        <Suspense fallback={<Spinner />}>
-          <TopProperties title="Dubai" locationExternalIDs={"5002"} />
-        </Suspense>
+        <TopProperties title="Dubai" locationExternalIDs={"5002"} />
       </section>
     </div>
   );
