@@ -39,13 +39,7 @@ const Home: NextPage<{
           <SearchBox />
         </section>
       </div>
-      <section className="">
-        <hr className="max-w-7xl mx-auto my-20 px-5 border  border-slate-200/50" />
-        <h2 className="text-center capitalize text-indigo-600 text-lg  underline underline-offset-4 decoration-2 decoration-yellow-400 lg:text-4xl">
-          trending Properties in UAE 🇦🇪
-        </h2>
-        <TopProperties properties={properties} />
-      </section>
+      
     </div>
   );
 };
